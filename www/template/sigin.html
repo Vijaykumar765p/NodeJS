@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <base href="./" />
+    <title> </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="yes" />
+
+	<script type="text/javascript" src="../cordova.js"></script>
+	<script> function onDeviceReady(){} document.addEventListener('deviceready', onDeviceReady , false); </script>
+	
+	<script type="text/javascript" src="../js/constant.js"></script>
+	<script src="../js/login.js"></script>
+
+	<link rel="stylesheet" href="../css/font-awesome.min.css">
+   	<link rel="stylesheet" href="../css/myStyle.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+
+</head>
+
+<body  onload="checkAccountExistsOnRegistrationStatus()" >
+    <div id="header"></div>
+
+
+ 
+<div class="container text-center" id="divID">
+	<b  style="color: #8e7cc3;font-size: 20px;" >SIGN IN</b>
+	<div   style="color: gray;">
+		<p>Please sign in to your FITTastic account.</p>
+		<!-- <p>we'll save your workout history and adapt yours workouts as you progress.</p> -->
+	</div>
+		<div class="col-lg-12 col-md-12 col-sm-12" style=" top:50px;" >
+		<p class="text-center" id="error" style="color:red;"></p>
+		<br/>
+
+			<input type="text" id="email" class="input_text"  style="padding: 10px;" placeholder="Email"><br>
+			  <hr>
+              <input type="password" id="pwd"  class="input_text"  style="padding: 10px;" placeholder="Password">
+			    <hr>
+				<button class="btn btn-sm  login_button form-control myButton" onclick="doLogin( )" >LOGIN</button>
+						<br>
+
+
+				   <div  class="text-center"  >
+					   <div class="row">
+							<!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							   <div style="  color:#674ea7;" onclick="goForRegistration()" > Create an account</div>
+							 </div>  -->
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">					 
+						   <div style=" color:#674ea7;    padding: 5px; font-size: 14px;" onclick="displayForgotPassword()"> Forgot Password</div>
+						   </div>
+					   </div>   
+					   <div class="row">
+							<p  onclick="openPrivacyPolicy()"  style="#060606: !important;">privacy policy</p>
+					   </div>
+					</div>
+		</div>
+
+</div>
+ 
+  
+<script src="../js/header.js"></script>
+
+ 
+
+
+
+
+
+<div class="container" id="forgotpasspage" style="display:none;">
+	<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12"  >
+			<p class="text-center"  style="color: #8e7cc3;font-size: 20px;font-weight:bold;" >Reset password</p>
+		</div>
+	</div>
+ 
+	<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12" style=" top:40px;" >
+		<p class="text-center"  id="heading"  style="color:gray;"> Enter registered email address</p>
+		<br/>
+		
+		<p class="text-center" id="forgoterror" style="color:red;"></p><br>
+		 
+		<div id="input">
+		<input type="text" id="forgotemail" class="input_text"  style="padding: 10px;" placeholder=" Enter an email"><br>
+		</div>
+		<button class="btn btn-sm  login_button form-control myButton" id="button" onclick="verifyEmailtoResetPassword()" >Next</button>
+		</div>
+	</div>
+</div>
+
+<div id="changepassworddom" style="display:none;">
+	<input type="password" id="forgotpass"  class="input_text" style="padding:10px;" placeholder="Password">
+	 <hr>
+	<input type="password" id="confirmforgotpass"  class="input_text" style="padding:10px;" placeholder=" Confirm Password">
+</div>
+
+
+
+
+</body>
+
+</html>

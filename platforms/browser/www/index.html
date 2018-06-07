@@ -1,0 +1,58 @@
+<html>
+<head>
+
+    <meta charset="utf-8">
+	<title>Fitness App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+   
+
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/eventsRegistration.js"></script>
+	
+	<link rel="stylesheet" href="css/myStyle.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	
+	<script src="js/constant.js"></script>
+	<script src="js/utility.js"></script>
+	<!--<script src="js/facebook-login DELETE.js"></script>-->
+	<script src="js/login.js"></script>
+	<!-- <script src="http://192.168.1.20:8080/target/target-script-min.js#anonymous"></script> -->
+
+	 
+</head>
+
+<body onload="isLogin()">
+
+<img src="./landingpage.png" class="img-responsive" style="position:relative;  -webkit-logical-height: -webkit-fill-available; overflow: hidden;  bottom: 1px; width:100%;  margin:0px !important; padding:0px !important; max-height: 100vh;" />
+		<!-- <span class="glyphicon glyphicon-volume-up volume_icon"></span>
+		<span class="glyphicon glyphicon-refresh volume_icon refresh_icon"></span>
+	      -->
+
+
+<div class="align-bottom">
+  <div class="container">
+	 <div class="text-center">
+		<p class="toptext"> GET FITT WITH AICHA</p>
+	 </div>
+			<div class="col-lg-12 col-md-12 col-sm-12" style="top: -30px;">
+			   <div class=" footer">
+			   
+				<button class="btn btn-sm  login_button form-control myButton landingpage_buttons" onclick="goForLogintemp()">LOGIN
+				</button>
+				<br><br>
+				<button class="btn btn-sm form-control myButton landingpage_buttons" style="color: #8e7cc3;" onclick="goForRegistrationtemp() ">Register With Email
+				</button>
+				<button onclick="fbLogin()" class="btn btn-sm  login_button form-control myButton landingpage_buttons" style="background-color: #0575b9 !important;">Sign In With Facebook
+				</button> <!--</img> -->
+					    
+			    </div>
+			</div>
+  </div>
+</div>
+
+</body>
+</html>
