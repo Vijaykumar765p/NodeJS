@@ -125,11 +125,15 @@ function setMale(){
 
 function saveAboutInfo(){
 
-	 
-	 
-	var age = document.getElementsByClassName("wc-date-container")[0].firstChild.innerHTML;
-	console.log(gender + $("#firstname").val() + $("#lastname").val() + age + $("#weight").val()  + $("#height").val());
-	
+	var ccode = document.getElementById('ccode').value.trim();
+	var mobile = document.getElementById('mobile').value.trim();
+
+if ( ValidateMobile(ccode,mobile) )
+	{
+		console.log(ccode+"----------------"+mobile);
+	// var age = document.getElementsByClassName("wc-date-container")[0].firstChild.innerHTML;
+	// console.log(gender + $("#firstname").val() + $("#lastname").val() + age + $("#weight").val()  + $("#height").val());
+	var age=0;
     try{ age = parseInt(age); } catch(err){ age = 0 ;} 
 
 	var obj = new Object();
@@ -137,6 +141,7 @@ function saveAboutInfo(){
 		obj.fittastic_user_gender = gender;
 		obj.fittastic_user_first_name = $("#firstname").val() || "";
 		obj.fittastic_user_last_name = $("#lastname").val() || "";
+		obj.fittastic_phone_number= ccode + mobile;
 		
 		if( weight == 0 )
 			obj.fittastic_weight = _USER_INFO.fittastic_weight ;  
@@ -174,6 +179,8 @@ function saveAboutInfo(){
 	http.setRequestHeader("Content-type", "application/json");
 
 	http.onreadystatechange = function() {
+		console.log(http);
+		console.log("----------------------------------");
 		if(http.readyState == 4 && http.status == 200) {
 			localStorage.setItem("USER_INFO" , this.responseText );
 				
@@ -198,10 +205,11 @@ function saveAboutInfo(){
 }
 
 	http.send(JSON.stringify(obj));
- 
 }
-
-
+else{
+	document.getElementById('infoerror').innerHTML = "Please enter valid mobile number";
+}
+}
 
 var i = 1 ;
 function increment(){
@@ -409,6 +417,15 @@ getUserINFO();
    
    
    
+function ValidateMobile( ccode,mobile )   
+{  
+ if ((ccode.length + mobile.length)>0 && (ccode.length + mobile.length)>=11)  
+  {  
+    return true ; 
+  }  
+    
+    return false; 
+}  
    
 
 

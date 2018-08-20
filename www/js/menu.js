@@ -336,7 +336,23 @@ try{
 						document.getElementById("menuID").appendChild(MainMenu);
 
 
+	// Show profile
+	var MainMenu =	document.createElement("div");
+				MainMenu.setAttribute("class" , "tab");
+				MainMenu.setAttribute("onclick" , "showProfile()");
+				var input =	document.createElement("input");
+							input.setAttribute("id" , "tab-" + 13 );
+							input.setAttribute("type" , "checkbox");
+							input.setAttribute("name" , "tabs");
 
+					var label =	document.createElement("label");
+						label.setAttribute("for" , "tab-" + 13);
+					var menuName  = document.createTextNode("Show Profile");
+
+						label.appendChild(menuName);
+
+						MainMenu.appendChild(label);
+						document.getElementById("menuID").appendChild(MainMenu);
 
 	//logout
 	var MainMenu =	document.createElement("div");
@@ -355,6 +371,9 @@ try{
 
 						MainMenu.appendChild(label);
 						document.getElementById("menuID").appendChild(MainMenu);
+
+
+		
 
  }
 

@@ -352,12 +352,14 @@ function doRegistrationSuccessResponseCallBack(http)
 	}
 }
 
-function doRegistrationWithEmail( email  ) 
+function doRegistrationWithEmail( email, mobileno  ) 
 {
 			 
 		var obj = new Object();
 			obj.username = email;
 			obj.email =    email;
+			obj.fittastic_phone_number= mobileno;
+			//send mobile number
 			obj.password = "fittastic123!"; //Temp while user confirms authorization code
 			obj.fittastic_registration_source = 'fittasticbyaicha';
 
@@ -373,7 +375,7 @@ function doRegistrationWithEmail( email  )
 
 var fbLogin = function () 
 {
-	alert("hi facebook");
+	
 	if (deviceIsOnline())
 	{
 		try 
@@ -588,15 +590,40 @@ function checkIfAccountExists(email)
 function userRegistrationByEmail()
 {
 	var email = document.getElementById('email').value.trim();
+	var ccode = document.getElementById('ccode').value.trim();
+	var mobile = document.getElementById('mobile').value.trim();
+	var emailcheck=0;
+	var mobilecheck=0;
 	if( ValidateEmail(email) )
 	{
-		checkIfAccountExistsInWordpress( email, checkIfEmailAccountExistsInWordpressResponseCallBackSuccess);
+		emailcheck=1;
+		//checkIfAccountExistsInWordpress( email, checkIfEmailAccountExistsInWordpressResponseCallBackSuccess);
 		//checkIfAccountExists(email.trim()); old stuff
 	}
-	else
+
+
+	if ( ValidateMobile(ccode,mobile) )
+	{
+		mobilecheck=1;
+		//document.getElementById('error').innerHTML = "Please enter valid email address";
+	}
+
+	if(emailcheck==1 && mobilecheck==1)
+	{
+		checkIfAccountExistsInWordpress( email, checkIfEmailAccountExistsInWordpressResponseCallBackSuccess);
+
+	}
+	else if(emailcheck==0)
 	{
 		document.getElementById('error').innerHTML = "Please enter valid email address";
 	}
+	else if(mobilecheck==0)
+	{
+		document.getElementById('error').innerHTML = "Please enter valid mobile number";
+	}
+
+
+
 }
 
 function checkIfEmailAccountExistsInWordpressResponseCallBackSuccess(http)
@@ -624,6 +651,10 @@ function registrationEmailWithAuthorizationCodeSuccessResponseCallBack(http)
 	{						
 		document.getElementById("otpinput").style.display = "block";
 		document.getElementById("email").style.display = "none";
+		document.getElementById("ccode").style.display = "none";
+		document.getElementById("mobile").style.display = "none";
+		var phnno=document.getElementById('ccode').value +document.getElementById('mobile').value;
+
 
 		var email = document.getElementById('email').value;
 		document.getElementById('error').innerHTML = "";
@@ -631,7 +662,7 @@ function registrationEmailWithAuthorizationCodeSuccessResponseCallBack(http)
 		document.getElementById('otpinput').setAttribute("placeholder" , "Enter authentication code here");
 		document.getElementById('heading').innerHTML = "Check your email for authentication code and enter below.";
 		document.getElementById('button').innerHTML = "Verify Authentication Code";
-		document.getElementById('button').setAttribute("onclick" , "verifyAuthorizationCodeForRegistration( '"+ email +"'  )");						
+		document.getElementById('button').setAttribute("onclick" , "verifyAuthorizationCodeForRegistration( '"+ email +"', '"+phnno+"'  )");						
 					
 	}
 	else if(  JSON.parse( http.responseText) ===  "1" )
@@ -725,7 +756,7 @@ function checkUserSourceSuccessFromWP(http)
 
 function doLogin()
 {
-	// alert('Attemptin to log in...');
+	//alert('Attemptin to log in...');
 	if ((document.getElementById('email').value == "" || document.getElementById('email').value == null) ||
 		(document.getElementById('pwd').value == "" || document.getElementById('pwd').value == null))
 	{
@@ -735,10 +766,8 @@ function doLogin()
 	{
 		try
 		{
-
 			//We really should check of the account exists first.  If it doesn't, then instruct user to create an account
 			var  email = document.getElementById('email').value.trim();
-			// alert(email);
 			if(ValidateEmail(email))
 			{
 				checkIfAccountExistsInWordpress(email ,checkUserSourceSuccessFromWP );
@@ -915,13 +944,13 @@ function checkAccountExistsOnRegistrationStatus()
 
 
 
-function verifyAuthorizationCodeForRegistration( email )
+function verifyAuthorizationCodeForRegistration( email,mobileno )
 {
 	 //var OPT = localStorage.getItem("OTP");	
 	 if( document.getElementById('otpinput').value.trim() === localStorage.getItem("OTP")  )
 	 {
 	 
-		doRegistrationWithEmail( email );
+		doRegistrationWithEmail( email, mobileno );
 	 
 		/* document.getElementById('input').innerHTML  = document.getElementById('changepassworddom').innerHTML; 
 		document.getElementById('button').innerHTML = "Change password";
@@ -950,4 +979,13 @@ function ValidateEmail( mail )
     return false; 
 }  
 
+function ValidateMobile( ccode,mobile )   
+{  
+ if ((ccode.length + mobile.length)>0 && (ccode.length + mobile.length)>=11)  
+  {  
+    return true ; 
+  }  
+    
+    return false; 
+}  
 

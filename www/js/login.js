@@ -352,12 +352,14 @@ function doRegistrationSuccessResponseCallBack(http)
 	}
 }
 
-function doRegistrationWithEmail( email  ) 
+function doRegistrationWithEmail( email, mobileno  ) 
 {
 			 
 		var obj = new Object();
 			obj.username = email;
 			obj.email =    email;
+			obj.fittastic_phone_number= mobileno;
+			//send mobile number
 			obj.password = "fittastic123!"; //Temp while user confirms authorization code
 			obj.fittastic_registration_source = 'fittasticbyaicha';
 
@@ -373,17 +375,15 @@ function doRegistrationWithEmail( email  )
 
 var fbLogin = function () 
 {
-	alert("Welcome to facebook page");
+	
 	if (deviceIsOnline())
 	{
 		try 
 		{	 
-			alert("alert1! plugin login Successfull")
 			facebookConnectPlugin.login(['public_profile', 'email' ], fbLoginSuccess, fbLoginError);
 		}
 		catch(err)
 		{
-			alert("alert2! Plugin login failed")
 			window.plugins.toast.showLongBottom(err);
 		}
 	}
@@ -396,7 +396,6 @@ var fbLoginSuccess = function (userData)
 {
 	try
 	{
-		alert("alert3! fblogin() function");
 		console.log( "userID"  +  JSON.stringify(userData.authResponse.userID)  );
 		console.log( "accessToken" +  JSON.stringify(userData.authResponse.accessToken)  );
 		console.log( "status"  + JSON.stringify(userData.status)  );
@@ -431,7 +430,6 @@ var fbLoginSuccess = function (userData)
 
 
 var fbLoginError = function (error) {
-	alert("Alert4! checks error");
 	window.plugins.toast.showLongBottom('Unable to sign you in using Facebook.  Please try again.');
 };
 
@@ -439,7 +437,6 @@ var fbLoginError = function (error) {
 function doFBRegistration( fbusername , fbuseremail , registration_source ) 
 {	
 	//window.plugins.toast.showLongBottom('Facebook doRegistration');	
-	alert("Alert5! registration");
 	var obj = new Object();
 	obj.username = fbusername;
 	obj.email =    fbuseremail;
@@ -447,8 +444,7 @@ function doFBRegistration( fbusername , fbuseremail , registration_source )
 	
 	if( typeof registration_source === "string" )
 	{
-        var pass;
-        pass = "fittastic123!";
+		pass = "fittastic123!";
 	}
 	obj.password =  pass ;
 
@@ -478,7 +474,6 @@ function fbRegistrationSuccessResponseCallBack(http)
 //account exists in the wordpress user table
 function checkIfAccountExistsInWordpress(email,successCallback)
 {
-	alert("Alert6! checks Account already exist")
 	//window.plugins.toast.showLongBottom("Checking if email account already registered...");
 	try
 	{
@@ -494,7 +489,6 @@ function checkIfAccountExistsInWordpress(email,successCallback)
 
 function checkIfFBAccountExistsInWordpressResponseCallBackSuccess(http)
 {
-	alert("Alert7! checks Account existance in wordpress");
 	//window.plugins.toast.showLongBottom(http.responseText);
 	var res = JSON.parse( http.responseText || "[]" );
 	//alert(JSON.stringify(res[0]));
@@ -541,7 +535,6 @@ function checkIfFBAccountExistsInWordpressResponseCallBackSuccess(http)
 	{
 		//Register with Facebook
 		//alert('New facebook registration');
-		alert("Alert8! Register's with facebook");
 		if( localStorage.getItem("FB_useremail") !== "" )
 		{
 			var email = localStorage.getItem("FB_useremail");
@@ -556,7 +549,6 @@ function checkIfFBAccountExistsInWordpressResponseCallBackSuccess(http)
 
 function directFBUserToLandingPage(http)
 {
-	alert("Alert9! takes FB user to app landing page")
 	 //alert('About to direct user to homepage: ' + http.responseText);
 	 var res = JSON.parse( http.responseText.Success || "[]" );
 	 if( parseInt(String( JSON.parse( http.responseText ).id )) > 0  ||  parseInt(String( JSON.parse( http.responseText )[0].id )) > 0  )
@@ -598,15 +590,40 @@ function checkIfAccountExists(email)
 function userRegistrationByEmail()
 {
 	var email = document.getElementById('email').value.trim();
+	var ccode = document.getElementById('ccode').value.trim();
+	var mobile = document.getElementById('mobile').value.trim();
+	var emailcheck=0;
+	var mobilecheck=0;
 	if( ValidateEmail(email) )
 	{
-		checkIfAccountExistsInWordpress( email, checkIfEmailAccountExistsInWordpressResponseCallBackSuccess);
+		emailcheck=1;
+		//checkIfAccountExistsInWordpress( email, checkIfEmailAccountExistsInWordpressResponseCallBackSuccess);
 		//checkIfAccountExists(email.trim()); old stuff
 	}
-	else
+
+
+	if ( ValidateMobile(ccode,mobile) )
+	{
+		mobilecheck=1;
+		//document.getElementById('error').innerHTML = "Please enter valid email address";
+	}
+
+	if(emailcheck==1 && mobilecheck==1)
+	{
+		checkIfAccountExistsInWordpress( email, checkIfEmailAccountExistsInWordpressResponseCallBackSuccess);
+
+	}
+	else if(emailcheck==0)
 	{
 		document.getElementById('error').innerHTML = "Please enter valid email address";
 	}
+	else if(mobilecheck==0)
+	{
+		document.getElementById('error').innerHTML = "Please enter valid mobile number";
+	}
+
+
+
 }
 
 function checkIfEmailAccountExistsInWordpressResponseCallBackSuccess(http)
@@ -634,6 +651,10 @@ function registrationEmailWithAuthorizationCodeSuccessResponseCallBack(http)
 	{						
 		document.getElementById("otpinput").style.display = "block";
 		document.getElementById("email").style.display = "none";
+		document.getElementById("ccode").style.display = "none";
+		document.getElementById("mobile").style.display = "none";
+		var phnno=document.getElementById('ccode').value +document.getElementById('mobile').value;
+
 
 		var email = document.getElementById('email').value;
 		document.getElementById('error').innerHTML = "";
@@ -641,7 +662,7 @@ function registrationEmailWithAuthorizationCodeSuccessResponseCallBack(http)
 		document.getElementById('otpinput').setAttribute("placeholder" , "Enter authentication code here");
 		document.getElementById('heading').innerHTML = "Check your email for authentication code and enter below.";
 		document.getElementById('button').innerHTML = "Verify Authentication Code";
-		document.getElementById('button').setAttribute("onclick" , "verifyAuthorizationCodeForRegistration( '"+ email +"'  )");						
+		document.getElementById('button').setAttribute("onclick" , "verifyAuthorizationCodeForRegistration( '"+ email +"', '"+phnno+"'  )");						
 					
 	}
 	else if(  JSON.parse( http.responseText) ===  "1" )
@@ -735,7 +756,7 @@ function checkUserSourceSuccessFromWP(http)
 
 function doLogin()
 {
-	// alert('Attemptin to log in...');
+	//alert('Attemptin to log in...');
 	if ((document.getElementById('email').value == "" || document.getElementById('email').value == null) ||
 		(document.getElementById('pwd').value == "" || document.getElementById('pwd').value == null))
 	{
@@ -745,10 +766,8 @@ function doLogin()
 	{
 		try
 		{
-
 			//We really should check of the account exists first.  If it doesn't, then instruct user to create an account
 			var  email = document.getElementById('email').value.trim();
-			// alert(email);
 			if(ValidateEmail(email))
 			{
 				checkIfAccountExistsInWordpress(email ,checkUserSourceSuccessFromWP );
@@ -925,13 +944,13 @@ function checkAccountExistsOnRegistrationStatus()
 
 
 
-function verifyAuthorizationCodeForRegistration( email )
+function verifyAuthorizationCodeForRegistration( email,mobileno )
 {
 	 //var OPT = localStorage.getItem("OTP");	
 	 if( document.getElementById('otpinput').value.trim() === localStorage.getItem("OTP")  )
 	 {
 	 
-		doRegistrationWithEmail( email );
+		doRegistrationWithEmail( email, mobileno );
 	 
 		/* document.getElementById('input').innerHTML  = document.getElementById('changepassworddom').innerHTML; 
 		document.getElementById('button').innerHTML = "Change password";
@@ -960,4 +979,13 @@ function ValidateEmail( mail )
     return false; 
 }  
 
+function ValidateMobile( ccode,mobile )   
+{  
+ if ((ccode.length + mobile.length)>0 && (ccode.length + mobile.length)>=11)  
+  {  
+    return true ; 
+  }  
+    
+    return false; 
+}  
 

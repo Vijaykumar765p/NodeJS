@@ -204,7 +204,18 @@ function loadProductDetails()
 
 			var blog = document.createElement("h5");	
 			blog.setAttribute("style" , "color:#674ea7; font-weight: bold; border:1px solid #674ea7; padding:10px; margin-top:50px; ");
-			var blog_content = document.createTextNode( "With a monthly subscription, you will get unlimited access to all my FITT workout programs, which consist of over 50 different workout videos you can chose from; access to my 4 different meal plans; as well regular updates to my app." );	
+
+			var subscription_message="";
+			if( cordova.platformId.toLowerCase() == "android" )
+			{
+				subscription_message= getNameFromProperties("androidsubscriptionmessage").name;		
+			}
+			else
+			{
+				subscription_message= getNameFromProperties("iossubscriptionmessage").name;
+			}
+
+			var blog_content = document.createTextNode( subscription_message );	
 			blog.appendChild(blog_content);
 			container.appendChild(blog);
 
@@ -520,8 +531,13 @@ function loadAutoRenewalSubscriptionHistory()
 
 	for( var i = 0 ; i < data.length ; i ++ )
 	{	
-		alert(JSON.stringify(data[i]));
-		storeAutoRenewalSubscriptionExpiryDate(data[i]);
+		var prd_details=getProductDetailsFromProperties(data[i].productId);
+		
+		if(prd_details.length>0 && prd_details.type==1)
+		{
+			storeAutoRenewalSubscriptionExpiryDate(data[i]);
+		}
+		
 	}
      
   })
@@ -581,6 +597,29 @@ function productIsAutoRenewalType( productid )
 
 
 
+function getProductDetailsFromProperties(productid)
+{
+	var prductsdetails = getNameFromProperties("inapppurchase") || [];	
+	var product_details = [];
+	
+	if( cordova.platformId.toLowerCase() === "android" )
+		 product_details = prductsdetails.android.iap;
+	else
+		 product_details = prductsdetails.ios.iap;
+			
+
+	for( var i = 0 ; i < product_details.length ; i++ )
+	{
+		  if( product_details[i].productid == productid )
+		  {
+		  		return	product_details[i]; 
+		  }
+			
+	}
+
+	return product_details;
+}
+
 
 function getProductValidityDuration( productid )
 {
@@ -612,16 +651,23 @@ function createAutoRenewalSubscriptionExpiryDate( purchase_details )
 	
 	var calculated_expiry_date = "";
 	
-	
+	var purchase_date="";
 	//if( purchase_details.receipt.autoRenewing == true )
-	
-		var purchase_date = new Date(purchase_details.receipt.PurchaseTime);
+	if( cordova.platformId.toLowerCase() === "android" )
+	{
+		purchase_date = new Date(purchase_details.receipt.PurchaseTime);
+	}
+	else if( cordova.platformId.toLowerCase() === "ios" )
+	{
+		purchase_date =	new Date(purchase_details.date);		
+	}
+
 		
-		var validity_duratin_object = getProductValidityDuration(purchase_details.productld);
+	var validity_duratin_object = getProductValidityDuration(purchase_details.productId);
 		
-			purchase_date.setDate(  purchase_date.getDate() + validity_duratin_object.day  );
-			purchase_date.setMonth(  purchase_date.getMonth() + validity_duratin_object.month  );
-			purchase_date.setFullYear(  purchase_date.getFullYear() + validity_duratin_object.year  );
+	purchase_date.setDate(purchase_date.getDate() + validity_duratin_object.day);
+	purchase_date.setMonth(purchase_date.getMonth() + validity_duratin_object.month);
+	purchase_date.setFullYear(purchase_date.getFullYear() + validity_duratin_object.year);
 		
 			calculated_expiry_date = purchase_date;
 			
@@ -637,16 +683,17 @@ function storeAutoRenewalSubscriptionExpiryDate( purchase_details )
 	var calculated_expiry_date = createAutoRenewalSubscriptionExpiryDate( purchase_details );
 	var locally_stored_expiry_date = getLocalStorageExpiryDate();
 	
-	var result = compare2Dates( calculated_expiry_date , locally_stored_expiry_date );
+	var result = compare2Dates(calculated_expiry_date , locally_stored_expiry_date);
+
 	
-	if( result > 0 )
+	if( result >= 0 )
 	{
 		// adding extended expiry date to remaining  expiry date
 		
-		var  final_expiry_date = getSubscriptionExpiryDate( purchase_details.productld ); 
+		var  final_expiry_date = getSubscriptionExpiryDate(purchase_details.productId); 
 			
 		// 3rd parameter product title. 	
-		 setSubscriptionExpiryDatetoServer( final_expiry_date ,  purchase_details.transactionld , "Auto_Renewal_Product" ); 
+		 setSubscriptionExpiryDatetoServer(final_expiry_date ,  purchase_details.transactionld , "Auto_Renewal_Product"); 
 		// alert("done");
 	}	 
 }

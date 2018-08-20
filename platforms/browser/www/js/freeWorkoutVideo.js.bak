@@ -1,0 +1,248 @@
+'use strict';
+
+
+function getFreeWorkoutImages()
+{
+	if (deviceIsOnline())
+	{
+		try
+		{
+			console.log(data[0].details[1].details);
+			for(var i = 0 ; i< len ; i++ )
+			{
+				if(data[0].details[1].details[i] && typeof(data[0].details[1].details[i].content_type)!=='undefined'  && data[0].details[1].details[i].content_type === "image")
+				{
+					getImagesByKey(data[0].details[1].details[i].key);
+				}
+			}
+		}
+		catch(err)
+		{
+			displayLandingPage();
+			cordovaOrMenuDataNotLoadedError();
+		}
+	}
+	else
+	{
+		window.plugins.toast.showLongCenter("No internet connection.  Online videos not available.");
+		displayLandingPage();
+	}
+}
+//---------------------------------------------------------------------
+	
+
+
+
+	function goToFREE_WORKOUTS( divHistory )
+	{
+		if (deviceIsOnline())
+		{
+			// window.location.reload();
+			clearAllPages();
+			showHederMenuOption();
+			displayMenuPage();
+			highLightSelectedOption( 1 );
+			getFreeWorkoutImages();
+		
+		//	if( divHistory === undefined )
+		//		addHistory("getFreeWorkoutImages()");
+		}
+		else
+		{
+			window.plugins.toast.showLongCenter("No internet connection.  Online videos not available.");
+			displayLandingPage();
+		}
+	}
+
+	 //---------------------------------------------------------------------
+	function goToFITTPROGRAMS( divHistory )
+	{
+		if (deviceIsOnline())
+		{
+			try
+			{	
+				 $('span').css('text-decoration', 'none');
+				  $('#fitt-programs').css('text-decoration' , 'underline');
+				 makeSubTypeImageCard(data[0].details[0].details);
+				// if( divHistory === undefined )
+				//	addHistory("goToFITTPROGRAMS()");
+			}
+			catch(err)
+			{	
+				cordovaOrMenuDataNotLoadedError();
+			}
+		}
+		else
+		{
+			window.plugins.toast.showLongCenter("No internet connection.  Online videos not available.");
+			displayLandingPage();
+		}
+	}
+
+	 //---------------------------------------------------------------------
+	function goToWORKOUT_BY_TYPE( divHistory )
+	{
+		if (deviceIsOnline())
+		{
+
+			try
+			{	
+				console.log(data[0].details[2].details);
+				 makeSubTypeImageCard(data[0].details[2].details);
+				// if( divHistory === undefined )
+				//	addHistory("goToWORKOUT_BY_TYPE()");
+			}
+			catch(err)
+			{
+				cordovaOrDataNorLoadedError();
+			}
+		}
+		else
+		{
+			window.plugins.toast.showLongCenter("No internet connection.  Online videos not available.");
+			displayLandingPage();
+		}
+	}
+
+ //---------------------------------------------------------------------
+function redirectToMethod(outerIndex , innerIndex , divHistory )
+{
+	
+	clearAllPages();
+	displayMenuPage();
+	showHederMenuOption();
+	
+	$('span').css('text-decoration', 'none');
+
+	 if(outerIndex  == 3 && innerIndex == 0  ){
+
+		document.getElementById("staticpage").style.display = "block";
+				
+			//	if( divHistory === undefined )
+					//	addHistory("success");
+ 	}
+	else
+	{
+		
+	 if (deviceIsOnline())
+	 {
+
+
+ 		if( outerIndex === 1 &&  ( innerIndex === 0  ||   innerIndex === 1  || innerIndex === 2  || innerIndex === 3 )  ){
+
+
+ 					goToMEALPLANS( innerIndex );
+ 		}else{ 
+
+
+
+		 	if(outerIndex=== 0 && innerIndex === 1  ){
+				highLightSelectedOption(innerIndex);
+				getFreeWorkoutImages();
+					//	if( divHistory === undefined )
+						//	addHistory("redirectToMethod( " +outerIndex + " , "+ innerIndex + " )");
+		  }else{
+				 if(outerIndex=== 0 && innerIndex === 3  ){
+						highLightSelectedOption(innerIndex);
+							console.log(data[outerIndex].details[innerIndex].details);
+							callCreatePDFDOM(data[outerIndex].details[innerIndex].details);
+							displayMenuPage();
+
+							//if( divHistory === undefined )
+							//	addHistory("pdf");
+				}else{
+
+
+					if( outerIndex == 2 &&  ( innerIndex == 0  || innerIndex == 1 || innerIndex == 2 ) ){
+								showHowToMeasureVideo( innerIndex  );
+								//if( divHistory === undefined )
+								//	addHistory("showHowToMeasureVideo");
+					}else{
+
+						if( outerIndex == 5 && innerIndex == 0 ){
+								callShowFittnessLevels( false );
+								//if( divHistory === undefined )
+									//addHistory("showFittnessLevels");
+					 	}else{
+
+							if( outerIndex == 5 && innerIndex == 2 ){
+									showProfile();
+								//if( divHistory === undefined )
+									//addHistory("showProfile");
+							}else{
+
+									if( outerIndex == 5 && innerIndex == 4 ){
+										showHelpPage();
+									//if( divHistory === undefined )
+										//addHistory("help");
+								}else{
+
+										if( outerIndex == 5 && innerIndex == 3 ){
+										goToSubcription();
+									//if( divHistory === undefined )
+										//addHistory("help");
+								}else{
+									highLightSelectedOption(innerIndex);
+									console.log(data[outerIndex].details[innerIndex].details);
+									if(  innerIndex == 0 )
+										goToFITTPROGRAMS();
+									else
+										goToWORKOUT_BY_TYPE();
+									//makeSubTypeImageCard(data[outerIndex].details[innerIndex].details);
+								}	
+									//if( divHistory === undefined )
+										//addHistory("redirectToMethod( " +outerIndex + " , "+ innerIndex + " )");
+								}
+
+							}
+
+						}
+
+				}
+			}
+		}
+	   }
+	
+	}
+	else
+	{
+	window.plugins.toast.showLongCenter("No internet connection.  Online videos not available.");
+	displayLandingPage();
+	}
+	
+  }
+}
+	 //---------------------------------------------------------------------
+	 function highLightSelectedOption(menuIndex){
+		 $('span').css('text-decoration', 'none');
+		 if(menuIndex == 0 )
+				$('#fitt-programs').css('text-decoration' , 'underline');
+		else
+			   if(menuIndex == 1 )
+					   $('#free-workouts').css('text-decoration' , 'underline');
+			 else
+					if(menuIndex == 2 )
+					   $('#workout-type').css('text-decoration' , 'underline');
+	 }
+	//---------------------------------------------------------------------
+
+
+	 function  showHowToMeasureVideo( innerIndex ){
+
+	 var key =  data[2].details[0].details[ innerIndex ].key ;
+	
+	 if(    key.indexOf(".pdf") > -1 ){
+			remoteViewPDF( key , "notAddBackButton" );
+
+	 }else{
+	 
+		getImagesByKey( (key.split(".")[0] + ".jpg").replace(" " , "")  ) ; //replace is there because in data.json is not proper. it contain space...
+		
+	 }
+ }
+//---------------------------------------------------------------------
+
+ function showProfile(){
+		window.location.href = "info.html";
+		
+}

@@ -1,16 +1,16 @@
 
- if(cordova.platformId == "browser") {
-// if (typeof cordova !== 'undefined') {
-//     cordova.define("com.phonegap.plugins.facebookconnect.FacebookConnectPlugin", function(require, exports, module) {
 
-        "use strict";
 
-        var exec = require("cordova/exec");
+
+ 
+
+
+if (cordova.platformId == "browser") {
+
     var facebookConnectPlugin = {
 
         getLoginStatus: function (s, f) {
             // Try will catch errors when SDK has not been init
-            alert("catch error");
             try {
                 FB.getLoginStatus(function (response) {
                     s(response);
@@ -171,15 +171,14 @@
     }());
 
     module.exports = facebookConnectPlugin;
-})
-}else {
+
+} else {
 
     var exec = require("cordova/exec");
 
     var facebookConnectPlugin = {
 
         getLoginStatus: function (s, f) {
-            alert("Hello");
             exec(s, f, "FacebookConnectPlugin", "getLoginStatus", []);
         },
 

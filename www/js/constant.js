@@ -9,8 +9,8 @@ var _IP = "http://fittasticapi-2060801130.us-west-2.elb.amazonaws.com";
 var _PORT = ":2000";
 var _SERVER_IMG_URL =  _IP + _PORT + "/gets3image"+_TOKEN+"&key=";
 var _SERVER_VD_URL =  _IP + _PORT + "/"+_TOKEN+"&key=";
-//var _VD_LOCK_DETAIL_URL =  _IP + _PORT + "/gets3image"+_TOKEN+"&key=cHJvcGVydGllcy5qc29u";
-var _VD_LOCK_DETAIL_URL =  _IP + _PORT + "/gets3image"+_TOKEN+"&key=cHJvcGVydGllcy1zdGFnZS5qc29u";
+var _VD_LOCK_DETAIL_URL =  _IP + _PORT + "/gets3image"+_TOKEN+"&key=cHJvcGVydGllcy5qc29u";
+//var _VD_LOCK_DETAIL_URL =  _IP + _PORT + "/gets3image"+_TOKEN+"&key=cHJvcGVydGllcy1zdGFnZS5qc29u";
 var _TR_DETAIL_URL =  _IP + _PORT + "/gets3image"+_TOKEN+"&key=dHJhbnNmb3JtYXRpb25zLmpzb24=";
 var _MENU_DATA_URL =  _IP + _PORT + "/gets3image"+_TOKEN+"&key=" + _DATAJSON ;
 var _Measure_VD_URL = _SERVER_VD_URL + "MyN0b29scy8xI2hvd190b19tZWFzdXJlX3lvdXJzZWxmL1Jlc18gTWVhc3VyZW1lbnQubXA0";
@@ -127,3 +127,6 @@ function setUserId( USER_ID ){
 	localStorage.setItem( "userID" , String(USER_ID) );
 	_USER_ID = localStorage.getItem("userID") || "";
 }
+
+ 
+ 
