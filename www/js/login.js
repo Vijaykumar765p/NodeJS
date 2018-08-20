@@ -373,15 +373,17 @@ function doRegistrationWithEmail( email  )
 
 var fbLogin = function () 
 {
-	alert("hi facebook");
+	alert("Welcome to facebook page");
 	if (deviceIsOnline())
 	{
 		try 
 		{	 
+			alert("alert1! plugin login Successfull")
 			facebookConnectPlugin.login(['public_profile', 'email' ], fbLoginSuccess, fbLoginError);
 		}
 		catch(err)
 		{
+			alert("alert2! Plugin login failed")
 			window.plugins.toast.showLongBottom(err);
 		}
 	}
@@ -394,6 +396,7 @@ var fbLoginSuccess = function (userData)
 {
 	try
 	{
+		alert("alert3! fblogin() function");
 		console.log( "userID"  +  JSON.stringify(userData.authResponse.userID)  );
 		console.log( "accessToken" +  JSON.stringify(userData.authResponse.accessToken)  );
 		console.log( "status"  + JSON.stringify(userData.status)  );
@@ -428,6 +431,7 @@ var fbLoginSuccess = function (userData)
 
 
 var fbLoginError = function (error) {
+	alert("Alert4! checks error");
 	window.plugins.toast.showLongBottom('Unable to sign you in using Facebook.  Please try again.');
 };
 
@@ -435,6 +439,7 @@ var fbLoginError = function (error) {
 function doFBRegistration( fbusername , fbuseremail , registration_source ) 
 {	
 	//window.plugins.toast.showLongBottom('Facebook doRegistration');	
+	alert("Alert5! registration");
 	var obj = new Object();
 	obj.username = fbusername;
 	obj.email =    fbuseremail;
@@ -442,7 +447,8 @@ function doFBRegistration( fbusername , fbuseremail , registration_source )
 	
 	if( typeof registration_source === "string" )
 	{
-		pass = "fittastic123!";
+        var pass;
+        pass = "fittastic123!";
 	}
 	obj.password =  pass ;
 
@@ -472,6 +478,7 @@ function fbRegistrationSuccessResponseCallBack(http)
 //account exists in the wordpress user table
 function checkIfAccountExistsInWordpress(email,successCallback)
 {
+	alert("Alert6! checks Account already exist")
 	//window.plugins.toast.showLongBottom("Checking if email account already registered...");
 	try
 	{
@@ -487,6 +494,7 @@ function checkIfAccountExistsInWordpress(email,successCallback)
 
 function checkIfFBAccountExistsInWordpressResponseCallBackSuccess(http)
 {
+	alert("Alert7! checks Account existance in wordpress");
 	//window.plugins.toast.showLongBottom(http.responseText);
 	var res = JSON.parse( http.responseText || "[]" );
 	//alert(JSON.stringify(res[0]));
@@ -533,6 +541,7 @@ function checkIfFBAccountExistsInWordpressResponseCallBackSuccess(http)
 	{
 		//Register with Facebook
 		//alert('New facebook registration');
+		alert("Alert8! Register's with facebook");
 		if( localStorage.getItem("FB_useremail") !== "" )
 		{
 			var email = localStorage.getItem("FB_useremail");
@@ -547,6 +556,7 @@ function checkIfFBAccountExistsInWordpressResponseCallBackSuccess(http)
 
 function directFBUserToLandingPage(http)
 {
+	alert("Alert9! takes FB user to app landing page")
 	 //alert('About to direct user to homepage: ' + http.responseText);
 	 var res = JSON.parse( http.responseText.Success || "[]" );
 	 if( parseInt(String( JSON.parse( http.responseText ).id )) > 0  ||  parseInt(String( JSON.parse( http.responseText )[0].id )) > 0  )
