@@ -690,5 +690,21 @@ function zoomImage( pdfBackUpDiv )
 	
 }
 
-
- 
+function ValidateMobile( ccode,mobile )   
+{  
+	if(/^(?:[1-9]\d*|0)$$/.test(mobile)==false)
+		{
+			document.getElementById('infoerror').innerHTML = "Your mobile number should not start with zero(0)";
+			return false;
+		}
+		else if((ccode.length + mobile.length)<12)
+		{
+			document.getElementById('infoerror').innerHTML = "Please enter valid mobile number";
+			return false; 
+		}
+		else if((ccode.length + mobile.length)>0 && (ccode.length + mobile.length)>=12 && (ccode.length + mobile.length)<=13)  
+		{  
+			return true ; 
+		}  
+    		
+}  

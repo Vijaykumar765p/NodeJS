@@ -18,6 +18,7 @@
 
 	<script type="text/javascript" src="../js/constant.js"></script>
 	<script src="../js/login.js"></script>
+	<script src="../js/utility.js"></script>
 
 	<link rel="stylesheet" href="../css/myStyle.css">
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -40,6 +41,7 @@
 			<p class="text-center" id="heading" style="color:grey;"></p>
 			<br>
 			<p class="text-center" id="error" style="color:red;"></p>
+			<p class="text-center" id="infoerror" style="color:red;"></p>
 			<!-- <br/>
 			<input type="text" id="rname" class="input_text" style="padding:10px;"   placeholder="User Name"><br>
 			  <hr> -->
@@ -49,7 +51,7 @@
 			</div>
 			<div>
 				<div style="width: 30%; float: left;">
-					<input type="number" id="ccode " class="input_text " style="padding:10px;" placeholder="000" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3">
+					<input type="number" id="ccode" class="input_text " style="padding:10px;" placeholder="000" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3">
 				</div>
 				<div style="width: 70%; float: left;">
 					<input type="number" id="mobile" class="input_text " style="padding:10px;" placeholder="Enter mobile number here" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10">
@@ -82,8 +84,6 @@
 		</div>
 
 	</div>
-
-
 	<script src="../js/header.js "></script>
 </body>
 

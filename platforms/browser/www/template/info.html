@@ -32,6 +32,7 @@
 		function onDeviceReady() {}
 	</script>
 	<script src="../js/constant.js"></script>
+	<script src="../js/utility.js"></script>
 	<script src="../js/info.js"></script>
 
 
@@ -44,9 +45,7 @@
 		<div class="container text-center">
 			<p class="create_account">Tell me about yourself</p>
 			<div class="col-lg-12 col-md-12 col-sm-12">
-				<div id="infoerror" style="color:red">
-
-				</div>
+				<div id="infoerror" style="color:red"></div>
 
 				<form class="form" style="margin-top: 10%;border:1px #8e7cc3!important;">
 					<div class="btn-group " data-toggle="buttons">
@@ -66,14 +65,14 @@
 						<tr>
 							<td class="page_font">Firstname </td>
 							<td class="page_font">
-								<input type="text" class="form-control   zeroborder0" id="firstname" name="lg_username" placeholder="Tap to Enter">
+								<input type="text" class="form-control   zeroborder0" id="firstname" name="lg_firstname" placeholder="Tap to Enter">
 							</td>
 						</tr>
 
 						<tr>
 							<td class="page_font">Lastname </td>
 							<td class="page_font">
-								<input type="text" class="form-control   zeroborder0" id="lastname" name="lg_username" placeholder="Tap to Enter">
+								<input type="text" class="form-control   zeroborder0" id="lastname" name="lg_lastname" placeholder="Tap to Enter">
 							</td>
 						</tr>
 
@@ -81,10 +80,10 @@
 							<td class="page_font">Mobile No </td>
 							<td class="page_font">
 								<div style="width: 25%; float: left;"> 
-									<input type="number" class="form-control   zeroborder0" id="ccode" name="lg_username" placeholder="000" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3">
+									<input type="number" class="form-control   zeroborder0" id="ccode" name="lg_ccode" placeholder="000" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3">
 								</div>
 								<div style="width: 75%; float: left;">
-									<input type="number" class="form-control   zeroborder0" id="mobile" name="lg_username" placeholder="Enter Mobile No" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10">
+									<input type="number" class="form-control   zeroborder0" id="mobile"  name="lg_mobile" placeholder="Enter Mobile No" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10">
 								</div>
 							</td>
 						</tr>
