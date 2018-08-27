@@ -2,6 +2,7 @@
 //---------------------------------------------------------------------
 function loadProductDetails()
 {
+	
 	if( deviceIsOnline() )
 	{
 		showHederMenuOption();
@@ -35,19 +36,44 @@ function loadProductDetails()
 			{
 			inAppPurchase.getProducts(  _product.list ).then(function (products) 
 			{ 
+
+			var subscription_message="";
+			var head_msg="";
+			if( cordova.platformId.toLowerCase() == "android" )
+			{
+				 subscription_message= getNameFromProperties("androidsubscriptionmessage").name;	
+				 head_msg="Get Fitt With Aicha Subscription";
+				//var sub_message= getNameFromProperties("iossubscriptionmessage").name;
+				//var splitmsg= sub_message.split('|');
+				//head_msg=splitmsg[0];
+				//for(var i=3;i<splitmsg.length;i++){
+				
+					//subscription_message+="- "+splitmsg[i].autoLink()+"<br>";
+				//}	
+			}
+			else
+			{
+				var sub_message= getNameFromProperties("iossubscriptionmessage").name;
+				var splitmsg= sub_message.split('|');
+				head_msg=splitmsg[0];
+				for(var i=3;i<splitmsg.length;i++){
+				
+					subscription_message+="- "+splitmsg[i].autoLink()+"<br>";
+				}
+			}
 				// alert('response: ' +  JSON.stringify(products));
 				//console.log('If Isset products: ' +  products);
 			   _product.details = products;  
 			   
 			var SED = _USER_INFO.fittastic_subscription_expiry_date || "" ; 
 			if(  SED === "" )
-				SubscriptionMsg( _UNSUBSCRIBED_USERS );
+				SubscriptionMsg( _UNSUBSCRIBED_USERS,head_msg );
 			else if( subscription.daysremain <= 0 )	
-				SubscriptionMsg( _EXPIRED_SUBSCRIPTION );
+				SubscriptionMsg( _EXPIRED_SUBSCRIPTION,head_msg );
 			else if( subscription.daysremain > 0  && subscription.daysremain < 6 )	
-				SubscriptionMsg( _EXPIRING_SUBSCRIPTION );
+				SubscriptionMsg( _EXPIRING_SUBSCRIPTION,head_msg );
 			else if( subscription.daysremain >= 6 )
-				SubscriptionMsg( _NON_EXPIRING_SUBSCRIPTION ) ;  
+				SubscriptionMsg( _NON_EXPIRING_SUBSCRIPTION,head_msg ) ;  
 					
 		 
 			
@@ -203,20 +229,12 @@ function loadProductDetails()
 			document.getElementById("imgContainerEnd").appendChild(container);
 
 			var blog = document.createElement("h5");	
-			blog.setAttribute("style" , "color:#674ea7; font-weight: bold; border:1px solid #674ea7; padding:10px; margin-top:50px; ");
+			blog.setAttribute("style" , "color:#674ea7; font-weight: bold; border:1px solid #674ea7; padding:10px; margin-top:50px; text-align:left");
 
-			var subscription_message="";
-			if( cordova.platformId.toLowerCase() == "android" )
-			{
-				subscription_message= getNameFromProperties("androidsubscriptionmessage").name;		
-			}
-			else
-			{
-				subscription_message= getNameFromProperties("iossubscriptionmessage").name;
-			}
+			
 
-			var blog_content = document.createTextNode( subscription_message );	
-			blog.appendChild(blog_content);
+			//var blog_content = document.createTextNode( subscription_message );	
+			blog.innerHTML=subscription_message;
 			container.appendChild(blog);
 
 			})
@@ -345,14 +363,21 @@ try {
 
 
 
-function SubscriptionMsg( msg )
+function SubscriptionMsg( msg,head_msg )
 {
-	var rowDiv = document.createElement("h5");
+	var rowDiv = document.createElement("h4");
 	rowDiv.setAttribute("class" , "row container  "); 
 	rowDiv.setAttribute("style" , " text-align: center;color: #674ea7;"); 
-	var msg	= document.createTextNode( msg  );	
-	rowDiv.appendChild(msg);
+	var msghd	= document.createTextNode( head_msg  );	
+	rowDiv.appendChild(msghd);
 	document.getElementById("imgContainerEnd").appendChild(rowDiv);
+
+	var rowDiv1 = document.createElement("h5");
+	rowDiv1.setAttribute("class" , "row container  "); 
+	rowDiv1.setAttribute("style" , " text-align: center;color: #674ea7;"); 
+	var msg	= document.createTextNode( msg  );	
+	rowDiv1.appendChild(msg);
+	document.getElementById("imgContainerEnd").appendChild(rowDiv1);
 }
 
 
